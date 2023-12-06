@@ -145,9 +145,61 @@ class GameEngine:
                         self._field[new_x][new_y] = rabbit
 
 
+    def moveCptVertical(self, movement):
+        field_height = len(self._field)
+        new_x = self._captain.get_x() + movement
 
+        # Check for field boundaries
+        if 0 <= new_x < field_height:
+            target = self._field[new_x][self._captain.get_y()]
+            # Check for empty slot or Veggie
+            if target is None or isinstance(target, Veggie):
+                # Move Captain and update previous location to None
+                old_x = self._captain.get_x()
+                self._field[old_x][self._captain.get_y()] = None
+                self._captain.set_x(new_x)
 
+                if isinstance(target, Veggie):
+                    # Output message, add Veggie to Captain's list, and update score
+                    print(f"Yummy! A delicious {target.get_name()} found.")
+                    self._captain.addVeggie(target)
+                    self._score += target.get_points()
 
+                # Assign the Captain to the new location
+                self._field[new_x][self._captain.get_y()] = self._captain
+
+            # Check for Rabbit
+            elif isinstance(target, Rabbit):
+                print("Oops! You should not step on the rabbits.")
+
+    def moveCptHorizontal(self, movement):
+        field_width = len(self._field[0]) if len(self._field) > 0 else 0
+        new_y = self._captain.get_y() + movement
+
+        # Check for field boundaries
+        if 0 <= new_y < field_width:
+            target = self._field[self._captain.get_x()][new_y]
+            # Check for empty slot or Veggie
+            if target is None or isinstance(target, Veggie):
+                # Move Captain and update previous location to None
+                old_y = self._captain.get_y()
+                self._field[self._captain.get_x()][old_y] = None
+                self._captain.set_y(new_y)
+
+                if isinstance(target, Veggie):
+                    # Output message, add Veggie to Captain's list, and update score
+                    print(f"Yummy! A delicious {target.get_name()} found.")
+                    self._captain.addVeggie(target)
+                    self._score += target.get_points()
+
+                # Assign the Captain to the new location
+                self._field[self._captain.get_x()][new_y] = self._captain
+
+            # Check for Rabbit
+            elif isinstance(target, Rabbit):
+                print("Oops! You should not step on the rabbits.")
+
+   
 
 
 
