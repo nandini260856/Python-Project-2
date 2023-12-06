@@ -52,6 +52,36 @@ class GameEngine:
                     break
 
 
+     
+    def initCaptain(self):
+        field_height = len(self._field)
+        field_width = len(self._field[0]) if field_height > 0 else 0
+
+        # Randomly choose a location for the Captain
+        while True:
+            x, y = random.randint(0, field_height - 1), random.randint(0, field_width - 1)
+            if self._field[x][y] is None:
+                # Create a new Captain object and place it on the field
+                self._captain = Captain(x, y)
+                self._field[x][y] = self._captain
+                break
+
+    def initRabbits(self):
+        field_height = len(self._field)
+        field_width = len(self._field[0]) if field_height > 0 else 0
+
+        for _ in range(GameEngine.__NUMBER_OF_RABBITS):
+            while True:
+                x, y = random.randint(0, field_height - 1), random.randint(0, field_width - 1)
+                if self._field[x][y] is None:
+                    # Create a new Rabbit object and place it on the field
+                    rabbit = Rabbit(x, y)
+                    self._rabbits.append(rabbit)
+                    self._field[x][y] = rabbit
+                    break
+
+
+
 
 
 
