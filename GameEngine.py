@@ -119,6 +119,35 @@ class GameEngine:
             print("#")  # End of row border
         print("################################")  # Bottom border
 
+    def getScore(self):
+        return self._score
+
+    def moveRabbits(self):
+        field_height = len(self._field)
+        field_width = len(self._field[0]) if field_height > 0 else 0
+
+        for rabbit in self._rabbits:
+            dx, dy = random.randint(-1, 1), random.randint(-1, 1)  # Random move direction
+            new_x, new_y = rabbit.get_x() + dx, rabbit.get_y() + dy
+
+            # Check for field boundaries
+            if 0 <= new_x < field_height and 0 <= new_y < field_width:
+                # Check for other Rabbit or Captain
+                if not isinstance(self._field[new_x][new_y], Rabbit) and self._field[new_x][new_y] != self._captain:
+                    # Move Rabbit and update previous location to None
+                    self._field[rabbit.get_x()][rabbit.get_y()] = None
+                    rabbit.set_x(new_x)
+                    rabbit.set_y(new_y)
+
+                    # Check and handle if Rabbit moves onto a Veggie
+                    if isinstance(self._field[new_x][new_y], Veggie):
+                        # Rabbit eats the Veggie
+                        self._field[new_x][new_y] = rabbit
+
+
+
+
+
 
 
 
