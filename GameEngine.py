@@ -199,7 +199,71 @@ class GameEngine:
             elif isinstance(target, Rabbit):
                 print("Oops! You should not step on the rabbits.")
 
-   
+
+    def moveCaptain(self):
+        direction = input("Which direction would you like to move Captain? (W, A, S, D): ").strip().lower()
+        field_height = len(self._field)
+        field_width = len(self._field[0]) if len(self._field) > 0 else 0
+
+        if direction == "w":  # Move up
+            if self._captain.get_x() > 0:
+                self.moveCptVertical(-1)
+            else:
+                print("You cannot move that way.")
+        elif direction == "s":  # Move down
+            if self._captain.get_x() < field_height - 1:
+                self.moveCptVertical(1)
+            else:
+                print("You cannot move that way.")
+        elif direction == "a":  # Move left
+            if self._captain.get_y() > 0:
+                self.moveCptHorizontal(-1)
+            else:
+                print("You cannot move that way.")
+        elif direction == "d":  # Move right
+            if self._captain.get_y() < field_width - 1:
+                self.moveCptHorizontal(1)
+            else:
+                print("You cannot move that way.")
+        else:
+            print("Invalid input. Please use W, A, S, or D.")
+
+    def gameOver(self):
+        print("Game Over!")
+        print("Here are the vegetables Captain Veggie harvested:")
+
+        for veggie in self._captain.get_collected_veggies():
+            print(veggie.get_name())
+
+        print(f"Your final score is: {self._score}")
+
+    def highScore(self):
+        high_scores = []  # List to store high scores (initials, score)
+
+        # Check if high score file exists and read from it
+        if os.path.exists(GameEngine.__HIGH_SCORE_FILE):
+            with open(GameEngine.__HIGH_SCORE_FILE, 'rb') as file:
+                high_scores = pickle.load(file)
+
+        # Prompt user for initials
+        initials = input("Please enter your initials: ")[:3].upper()
+
+        # Create tuple for current player's score
+        player_score = (initials, self._score)
+
+        # Add player's score to the high score list
+        high_scores.append(player_score)
+        high_scores.sort(key=lambda x: x[1], reverse=True)  # Sort by score in descending order
+
+        # Output high scores
+        print("HIGH SCORES:")
+        for score in high_scores:
+            print(f"{score[0]}\t{score[1]}")
+
+        # Write high scores back to file
+        with open(GameEngine.__HIGH_SCORE_FILE, 'wb') as file:
+            pickle.dump(high_scores, file)
+
 
 
 
