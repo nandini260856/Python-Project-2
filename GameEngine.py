@@ -107,7 +107,17 @@ class GameEngine:
         print("Good luck and have fun!")
 
 
-
+    def printField(self):
+        print("################################")  # Top border
+        for row in self._field:
+            print("# ", end="")
+            for item in row:
+                if item is None:
+                    print("  ", end="")  # Empty space
+                else:
+                    print(item.get_symbol() + " ", end="")  # Symbol of the field inhabitant
+            print("#")  # End of row border
+        print("################################")  # Bottom border
 
 
 
