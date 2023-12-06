@@ -80,7 +80,31 @@ class GameEngine:
                     self._field[x][y] = rabbit
                     break
 
+    def initializeGame(self):
+         self.initVeggies()
+         self.initCaptain()
+         self.initRabbits()
 
+    def remainingVeggies(self):
+        count = 0
+        for row in self._field:
+            for item in row:
+                if isinstance(item, Veggie):
+                    count += 1
+        return count
+
+    def intro(self):
+        print("Welcome to the Veggie Harvest Game!")
+        print("In this game, you'll help Captain Veggie to harvest as many vegetables as possible.")
+        print("Beware of the rabbits, as they are also trying to get the veggies!")
+        print("\nHere are the vegetables you can find in the field:")
+
+        for veggie in self._veggies:
+            print(veggie)  # Using the __str__ method of Veggie class for printing
+
+        print("\nIn this adventure, 'V' represents Captain Veggie and 'R' represents the rabbits.")
+        print("Your goal is to navigate the field, harvest veggies, and avoid rabbits.")
+        print("Good luck and have fun!")
 
 
 
