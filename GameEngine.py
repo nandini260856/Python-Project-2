@@ -98,9 +98,9 @@ class GameEngine:
         """
         Initializes the game by setting up veggies, the captain, and rabbits on the field.
         """
-         self.initVeggies()
-         self.initCaptain()
-         self.initRabbits()
+        self.initVeggies()
+        self.initCaptain()
+        self.initRabbits()
 
     def remainingVeggies(self):
         """
