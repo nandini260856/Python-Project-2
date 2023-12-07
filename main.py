@@ -1,8 +1,9 @@
-# main.py
-
 from GameEngine import GameEngine
 
 def main():
+    """
+    The main function that runs the game.
+    """
     # Instantiate a GameEngine object
     game_engine = GameEngine()
 
