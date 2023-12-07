@@ -1,4 +1,3 @@
-# GameEngine.py
 import os
 import random
 import pickle
@@ -9,11 +8,17 @@ from Rabbit import Rabbit
 
 
 class GameEngine:
+    """
+    The main game engine for the Veggie Harvest Game.
+    """
     __NUMBER_OF_VEGGIES = 30  # Private constant for initial number of vegetables
     __NUMBER_OF_RABBITS = 5   # Private constant for number of rabbits
     __HIGH_SCORE_FILE = "highscore.data"  # Private constant for the high score file name
 
     def __init__(self):
+        """
+        Initializes a GameEngine object.
+        """
         self._field = []  # Member variable for the field (list)
         self._rabbits = []  # Member variable for the rabbits in the field (list)
         self._captain = None  # Member variable for the captain object
@@ -21,6 +26,9 @@ class GameEngine:
         self._score = 0  # Member variable for the score
 
     def initVeggies(self):
+        """
+        Initializes the game field with vegetables based on a veggie file.
+        """
         # Prompting for the veggie file
         while True:
             file_name = input("Enter the name of the veggie file: ")
@@ -54,6 +62,9 @@ class GameEngine:
 
      
     def initCaptain(self):
+        """
+        Initializes the captain's position on the field.
+        """
         field_height = len(self._field)
         field_width = len(self._field[0]) if field_height > 0 else 0
 
@@ -67,6 +78,9 @@ class GameEngine:
                 break
 
     def initRabbits(self):
+        """
+        Initializes the positions of rabbits on the field.
+        """
         field_height = len(self._field)
         field_width = len(self._field[0]) if field_height > 0 else 0
 
@@ -81,11 +95,20 @@ class GameEngine:
                     break
 
     def initializeGame(self):
+        """
+        Initializes the game by setting up veggies, the captain, and rabbits on the field.
+        """
          self.initVeggies()
          self.initCaptain()
          self.initRabbits()
 
     def remainingVeggies(self):
+        """
+        Counts the number of remaining vegetables on the field.
+
+        :return: The number of remaining vegetables.
+        :rtype: int
+        """
         count = 0
         for row in self._field:
             for item in row:
@@ -94,6 +117,9 @@ class GameEngine:
         return count
 
     def intro(self):
+        """
+        Displays the game's introduction.
+        """
         print("Welcome to the Veggie Harvest Game!")
         print("In this game, you'll help Captain Veggie to harvest as many vegetables as possible.")
         print("Beware of the rabbits, as they are also trying to get the veggies!")
@@ -108,6 +134,9 @@ class GameEngine:
 
 
     def printField(self):
+        """
+        Prints the game field, including the symbols representing field inhabitants.
+        """
         print("################################")  # Top border
         for row in self._field:
             print("# ", end="")
@@ -120,9 +149,25 @@ class GameEngine:
         print("################################")  # Bottom border
 
     def getScore(self):
+        """
+        Gets the player's score.
+
+        :return: The player's score.
+        :rtype: int
+        """
         return self._score
 
     def moveRabbits(self):
+        """
+        Move the rabbits randomly within the field and handle interactions with other objects.
+
+        Rabbits make random moves within the field. They will not move onto the Captain or other rabbits. If a rabbit
+        moves onto a Veggie, it eats the Veggie.
+
+        This method updates the positions of rabbits on the field.
+
+        :return: None
+        """
         field_height = len(self._field)
         field_width = len(self._field[0]) if field_height > 0 else 0
 
@@ -146,6 +191,13 @@ class GameEngine:
 
 
     def moveCptVertical(self, movement):
+        """
+        Move Captain Veggie vertically within the field and handle interactions with other objects.
+
+        :param movement: The vertical movement direction (-1 for up, 1 for down).
+        :type movement: int
+        :return: None
+        """
         field_height = len(self._field)
         new_x = self._captain.get_x() + movement
 
@@ -173,6 +225,13 @@ class GameEngine:
                 print("Oops! You should not step on the rabbits.")
 
     def moveCptHorizontal(self, movement):
+        """
+    Move Captain Veggie horizontally within the field and handle interactions with other objects.
+
+    :param movement: The horizontal movement direction (-1 for left, 1 for right).
+    :type movement: int
+    :return: None
+    """
         field_width = len(self._field[0]) if len(self._field) > 0 else 0
         new_y = self._captain.get_y() + movement
 
@@ -201,6 +260,11 @@ class GameEngine:
 
 
     def moveCaptain(self):
+        """
+    Move Captain Veggie based on user input and handle interactions within the game field.
+
+    :return: None
+    """
         direction = input("Which direction would you like to move Captain? (W, A, S, D): ").strip().lower()
         field_height = len(self._field)
         field_width = len(self._field[0]) if len(self._field) > 0 else 0
@@ -229,6 +293,11 @@ class GameEngine:
             print("Invalid input. Please use W, A, S, or D.")
 
     def gameOver(self):
+        """
+    Display game over message and final score along with harvested vegetables.
+    
+    :return: None
+    """
         print("Game Over!")
         print("Here are the vegetables Captain Veggie harvested:")
 
@@ -238,6 +307,11 @@ class GameEngine:
         print(f"Your final score is: {self._score}")
 
     def highScore(self):
+        """
+    Handle the high score functionality, including displaying and updating high scores.
+
+    :return: None
+    """
         high_scores = []  # List to store high scores (initials, score)
 
         # Check if high score file exists and read from it
